@@ -33,12 +33,13 @@ $ python grabber.py
 0: Game Title 1
 1: Game Title 2
 2: Game Title 3
-Enter the number corresponding to the game: 1
 
-The URL for the selected game is: https://example.itch.io/game-title-2
-The embed URL for the selected game is: https://example.com/embed/game-title-2
+$ Enter the number corresponding to the game (or 'exit' to quit): 2
 
-Would you like to select another game? (y/n): n
+Game source: https://example.com/embed/game-title-2
+
+$ Enter the number corresponding to the game (or 'exit' to quit): exit
+
 Exiting the Itch Game Grabber. Goodbye!
 ```
 
