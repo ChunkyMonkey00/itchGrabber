@@ -34,7 +34,6 @@ def get_game_url():
             if 0 <= selected_game < len(href_list):
                 # Get the href corresponding to the selected game and print it
                 selected_href = href_list[selected_game]
-                print(f"The href for the selected game is: {selected_href}")
 
                 url = selected_href
 
@@ -52,7 +51,7 @@ def get_game_url():
                     iframe_src = iframe_soup.find('iframe')['src']
 
                     # Print the URL
-                    print(iframe_src)
+                    print("Game Source: "+iframe_src)
 
                 except (KeyError, TypeError):
                     # If iframe_src doesn't exist or encountered parsing errors, try finding iframe with id "game_drop"
