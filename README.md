@@ -9,11 +9,6 @@ The Itch Game Grabber allows you to easily access games available on itch.io, by
 1. **Clone the Repository**: To get started, download or clone the repository containing the `grabber.py` file. You can do this by:
 
    - **Downloading ZIP**: Click on the green "Code" button on the repository's GitHub page and select "Download ZIP". Once downloaded, unzip the file on your computer.
-   
-   - **Cloning Repository**: If you have Git installed, you can clone the repository using the following command in your terminal or command prompt:
-     ```
-     git clone https://github.com/yourusername/itch-game-grabber.git
-     ```
 
 2. **Navigate to the Directory**: Open the terminal or command prompt and navigate to the directory where the `grabber.py` file is located.
 
@@ -33,8 +28,6 @@ The Itch Game Grabber allows you to easily access games available on itch.io, by
 ## Example
 
 ```
-$ git clone https://github.com/yourusername/itch-game-grabber.git
-$ cd itch-game-grabber
 $ python grabber.py
 
 0: Game Title 1
