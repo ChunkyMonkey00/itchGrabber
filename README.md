@@ -33,13 +33,13 @@ $ python grabber.py
 33: Closing Doors
 34: Coming Out Simulator 2014
 35: Evolution
-(Took 8 MS)
+(Took 80 MS)
 
 Enter the game number ('exit' to quit/'next' to load more): 32
 
 Game Source (copied): https://html-classic.itch.zone/html/7576776/BeHonest Web 3-24-23/index.html
 No clipboard found.
-(Took 18 MS)
+(Took 180 MS)
 
 Enter the game number ('exit' to quit/'next' to load more): exit
 
