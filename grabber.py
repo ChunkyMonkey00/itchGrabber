@@ -69,7 +69,8 @@ def get_game_url():
                     try:
                         game_drop_iframe = soup.find('iframe', {'id': 'game_drop'})
                         if game_drop_iframe:
-                            print(game_drop_iframe['src'])
+                            print("Game Source (copied): "+game_drop_iframe['src'])
+                            pyperclip.copy(game_drop_iframe['src'])
                         else:
                             print("No source found")
                     except AttributeError:
