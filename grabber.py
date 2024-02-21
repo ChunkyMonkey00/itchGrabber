@@ -62,7 +62,12 @@ def get_game_url():
 
                     # Print the URL
                     print("Game Source (copied): "+iframe_src)
-                    pyperclip.copy(iframe_src)
+
+                    #Attempt copy to clipboard
+                    try:
+                        pyperclip.copy(iframe_src)
+                    except Exception:
+                        print("No clipboard found.")
 
                 except (KeyError, TypeError):
                     # If iframe_src doesn't exist or encountered parsing errors, try finding iframe with id "game_drop"
@@ -70,7 +75,12 @@ def get_game_url():
                         game_drop_iframe = soup.find('iframe', {'id': 'game_drop'})
                         if game_drop_iframe:
                             print("Game Source (copied): "+game_drop_iframe['src'])
-                            pyperclip.copy(game_drop_iframe['src'])
+
+                            # Attempt copy to clipboard
+                            try:
+                                pyperclip.copy(game_drop_iframe['src'])
+                            except Exception:
+                                print("No clipboard found.")
                         else:
                             print("No source found")
                     except AttributeError:
