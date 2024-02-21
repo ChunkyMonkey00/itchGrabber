@@ -1,107 +1,94 @@
-import requests
-from bs4 import BeautifulSoup
-import pyperclip
+let page = 1;
+let hrefList = [];
 
-page = 1
+function clearTable() {
+  const tableBody = document.getElementById('gameBody');
+  tableBody.innerHTML = ''; // Clear the table body
+}
 
-def get_game_url():
-    global page
+function populateTable(gameLinks) {
+  const tableBody = document.getElementById('gameBody');
+  gameLinks.forEach((link, index) => {
+    const row = document.createElement('tr');
+    const indexCell = document.createElement('td');
+    indexCell.textContent = index;
+    const gameCell = document.createElement('td');
+    gameCell.textContent = link.textContent; // Assuming link.textContent contains the game title
+    row.appendChild(indexCell);
+    row.appendChild(gameCell);
+    tableBody.appendChild(row);
+  });
+}
 
-    # Send a GET request to the URL
-    url = "https://itch.io/games/platform-web?page="+str(page)
-    response = requests.get(url)
+function getGameURL() {
+  const input = document.getElementById('gameInput').value;
+  if (input.toLowerCase() === 'exit') {
+    console.log("Exiting the Itch Game Grabber. Goodbye!");
+    return;
+  }
+  if (input.toLowerCase() === 'next') {
+    console.log("Getting more games...");
+    page++;
+    fetchGameURLs();
+    return;
+  }
 
-    # Parse the HTML content
-    soup = BeautifulSoup(response.content, 'html.parser')
+  const selectedGame = parseInt(input);
+  if (!isNaN(selectedGame) && selectedGame >= 0 && selectedGame < hrefList.length) {
+    const selectedHref = hrefList[selectedGame];
+    fetch(selectedHref)
+      .then(response => response.text())
+      .then(content => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(content, 'text/html');
+        const iframePlaceholder = doc.querySelector('.iframe_placeholder');
+        if (iframePlaceholder) {
+          const iframeData = iframePlaceholder.getAttribute('data-iframe');
+          const iframeDoc = parser.parseFromString(iframeData, 'text/html');
+          const iframeSrc = iframeDoc.querySelector('iframe').getAttribute('src');
+          console.log("Game Source (copied): " + iframeSrc);
+          navigator.clipboard.writeText(iframeSrc);
+        } else {
+          const gameDropIframe = doc.querySelector('#game_drop');
+          if (gameDropIframe) {
+            console.log("Game Source (copied): " + gameDropIframe.getAttribute('src'));
+            navigator.clipboard.writeText(gameDropIframe.getAttribute('src'));
+          } else {
+            console.log("No source found");
+          }
+        }
+      })
+      .catch(error => {
+        console.log("An error occurred:", error);
+      });
+  } else {
+    console.log("Invalid input. Please enter a number within the range.");
+  }
+}
 
-    # Find all "a" elements with classes "title" and "game_link"
-    game_links = soup.find_all('a', class_='title game_link')
+function fetchGameURLs() {
+  fetch("https://itch.io/games/platform-web?page=" + page, { mode: 'no-cors' })
+    .then(response => {
+      if (response.type === 'opaque') {
+        console.log('Opaque response, cannot read data');
+      } else {
+        return response.text();
+      }
+    })
+    .then(content => {
+      if (content) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(content, 'text/html');
+        const gameLinks = Array.from(doc.querySelectorAll('.title.game_link'));
+        hrefList = gameLinks.map(link => link.getAttribute('href'));
+        clearTable();
+        populateTable(gameLinks);
+      }
+    })
+    .catch(error => {
+      console.log("An error occurred:", error);
+    });
+}
 
-    # Initialize an ordered list to store the href attributes
-    href_list = []
-
-    # Loop through the game links, print the title with its index, and store the href in the list
-    for i, link in enumerate(game_links):
-        print(f"{i}: {link.text}")
-        href_list.append(link['href'])
-
-    print("(Took "+str(round(response.elapsed.total_seconds()*1000))+" MS)")
-    print("")
-
-    while True:
-        # Ask the user for a number corresponding to the game
-        selected_game = input("Enter the game number ('exit' to quit/'next' to load more): ")
-        print("")
-
-        if selected_game.lower() == 'exit':
-            print("Exiting the Itch Game Grabber. Goodbye!")
-            return
-        if selected_game.lower() == 'next':
-            print("Getting more games...")
-            page += 1
-            get_game_url()
-            return
-
-        try:
-            selected_game = int(selected_game)
-            # Check if the selected number is valid
-            if 0 <= selected_game < len(href_list):
-                # Get the href corresponding to the selected game and print it
-                selected_href = href_list[selected_game]
-
-                url = selected_href
-
-                try:
-                    r = requests.get(url)
-                    content = r.content
-
-                    soup = BeautifulSoup(content, 'html.parser')
-
-                    # Find the iframe element within the data-iframe attribute
-                    iframe_data = soup.find('div', {'class': 'iframe_placeholder'})['data-iframe']
-
-                    # Parse the iframe data as HTML to find the src attribute
-                    iframe_soup = BeautifulSoup(iframe_data, 'html.parser')
-                    iframe_src = iframe_soup.find('iframe')['src']
-
-                    # Print the URL
-                    print("Game Source (copied): "+iframe_src)
-
-                    #Attempt copy to clipboard
-                    try:
-                        pyperclip.copy(iframe_src)
-                    except Exception:
-                        print("No clipboard found.")
-
-                    print("(Took "+str(round(r.elapsed.total_seconds()*1000))+" MS)")
-                    print("")
-
-                except (KeyError, TypeError):
-                    # If iframe_src doesn't exist or encountered parsing errors, try finding iframe with id "game_drop"
-                    try:
-                        game_drop_iframe = soup.find('iframe', {'id': 'game_drop'})
-                        if game_drop_iframe:
-                            print("Game Source (copied): "+game_drop_iframe['src'])
-
-                            # Attempt copy to clipboard
-                            try:
-                                pyperclip.copy(game_drop_iframe['src'])
-                            except Exception:
-                                print("No clipboard found.")
-
-                            print("(Took "+str(round(r.elapsed.total_seconds()*1000))+" MS)")
-                            print("")
-                        else:
-                            print("No source found")
-                    except AttributeError:
-                        print("No source found")
-                except Exception as e:
-                    print("An error occurred:", e)
-            else:
-                print("Invalid input.")
-
-        except ValueError:
-            print("Invalid input.")
-
-if __name__ == "__main__":
-    get_game_url()
+// Initial fetch
+fetchGameURLs();
