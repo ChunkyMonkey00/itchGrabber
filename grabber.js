@@ -80,9 +80,11 @@ function fetchGameURLs() {
   headers.append('Upgrade-Insecure-Requests', '1');
   headers.append('User-Agent', 'Mozilla/5.0 (Windows NT  10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3');
   headers.append('credentials', 'include');
+  headers.append('Access-Control-Allow-Origin', '*');
 
   fetch("https://itch.io/games/platform-web", {
     method: 'GET',
+    mode: 'no-cors',
     headers: headers,
   })
     .then(response => {
