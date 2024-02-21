@@ -23,7 +23,7 @@ The Itch Game Grabber allows you to easily access games available on itch.io, by
 
 6. **Additional Features**: It may also attempt to extract the URL of the game's embedded content (e.g., iframe) for further use.
 
-7. **Repeat or Exit**: You can repeat the process to select another game or exit the script.
+7. **Repeat or Exit**: You can repeat the process using `next` to select another game or exit the script.
 
 ## Example
 
@@ -34,11 +34,11 @@ $ python grabber.py
 1: Game Title 2
 2: Game Title 3
 
-$ Enter the number corresponding to the game (or 'exit' to quit): 2
+$ Enter the game number ('exit' to quit/'next' to load more): 2
 
-Game source: https://example.com/embed/game-title-2
+Game source (copied): https://example.com/embed/game-title-2
 
-$ Enter the number corresponding to the game (or 'exit' to quit): exit
+$ Enter the game number ('exit' to quit/'next' to load more): exit
 
 Exiting the Itch Game Grabber. Goodbye!
 ```
