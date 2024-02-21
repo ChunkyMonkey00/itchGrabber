@@ -25,7 +25,7 @@ def get_game_url():
         print(f"{i}: {link.text}")
         href_list.append(link['href'])
 
-    print("(Took "+str(round(response.elapsed.total_seconds()*100))+" MS)")
+    print("(Took "+str(round(response.elapsed.total_seconds()*1000))+" MS)")
     print("")
 
     while True:
@@ -73,7 +73,7 @@ def get_game_url():
                     except Exception:
                         print("No clipboard found.")
 
-                    print("(Took "+str(round(r.elapsed.total_seconds()*100))+" MS)")
+                    print("(Took "+str(round(r.elapsed.total_seconds()*1000))+" MS)")
                     print("")
 
                 except (KeyError, TypeError):
@@ -89,7 +89,7 @@ def get_game_url():
                             except Exception:
                                 print("No clipboard found.")
 
-                            print("(Took "+str(round(r.elapsed.total_seconds()*100))+" MS)")
+                            print("(Took "+str(round(r.elapsed.total_seconds()*1000))+" MS)")
                             print("")
                         else:
                             print("No source found")
