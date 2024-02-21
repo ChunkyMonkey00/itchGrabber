@@ -19,11 +19,9 @@ The Itch Game Grabber allows you to easily access games available on itch.io, by
 
 4. **Select a Game**: The script will display a list of games available on itch.io. Enter the number corresponding to the game you're interested in and press Enter.
 
-5. **Retrieve Game URL**: The script will then display the URL of the selected game on itch.io, providing unblocked access.
+5. **Retrieve Game URL**: The script will then display and copy to clipboard the URL of the selected game on itch.io, providing unblocked access.
 
-6. **Additional Features**: It may also attempt to extract the URL of the game's embedded content (e.g., iframe) for further use.
-
-7. **Repeat or Exit**: You can repeat the process using `next` to select another game or exit the script.
+6. **Repeat or Exit**: You can repeat the process using `next` to select another game or exit the script.
 
 ## Example
 
