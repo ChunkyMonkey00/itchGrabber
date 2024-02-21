@@ -25,9 +25,13 @@ def get_game_url():
         print(f"{i}: {link.text}")
         href_list.append(link['href'])
 
+    print("(Took "+str(round(response.elapsed.total_seconds()*100))+" MS)")
+    print("")
+
     while True:
         # Ask the user for a number corresponding to the game
         selected_game = input("Enter the game number ('exit' to quit/'next' to load more): ")
+        print("")
 
         if selected_game.lower() == 'exit':
             print("Exiting the Itch Game Grabber. Goodbye!")
@@ -69,6 +73,9 @@ def get_game_url():
                     except Exception:
                         print("No clipboard found.")
 
+                    print("(Took "+str(round(r.elapsed.total_seconds()*100))+" MS)")
+                    print("")
+
                 except (KeyError, TypeError):
                     # If iframe_src doesn't exist or encountered parsing errors, try finding iframe with id "game_drop"
                     try:
@@ -81,6 +88,9 @@ def get_game_url():
                                 pyperclip.copy(game_drop_iframe['src'])
                             except Exception:
                                 print("No clipboard found.")
+
+                            print("(Took "+str(round(r.elapsed.total_seconds()*100))+" MS)")
+                            print("")
                         else:
                             print("No source found")
                     except AttributeError:
