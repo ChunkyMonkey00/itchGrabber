@@ -67,15 +67,23 @@ function getGameURL() {
 }
 
 function fetchGameURLs() {
-  fetch("https://itch.io/games/platform-web?page=" + page)
-    .then(response => response.text())
+  fetch("https://itch.io/games/platform-web?page=" + page, { mode: 'no-cors' })
+    .then(response => {
+      if (response.type === 'opaque') {
+        console.log('Opaque response, cannot read data');
+      } else {
+        return response.text();
+      }
+    })
     .then(content => {
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(content, 'text/html');
-      const gameLinks = Array.from(doc.querySelectorAll('.title.game_link'));
-      hrefList = gameLinks.map(link => link.getAttribute('href'));
-      clearTable();
-      populateTable(gameLinks);
+      if (content) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(content, 'text/html');
+        const gameLinks = Array.from(doc.querySelectorAll('.title.game_link'));
+        hrefList = gameLinks.map(link => link.getAttribute('href'));
+        clearTable();
+        populateTable(gameLinks);
+      }
     })
     .catch(error => {
       console.log("An error occurred:", error);
