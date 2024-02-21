@@ -88,10 +88,10 @@ def get_game_url():
                 except Exception as e:
                     print("An error occurred:", e)
             else:
-                print("Invalid input. Please enter a number within the range.")
+                print("Invalid input.")
 
         except ValueError:
-            print("Invalid input. Please enter a valid number or 'exit' to quit.")
+            print("Invalid input.")
 
 if __name__ == "__main__":
     get_game_url()
