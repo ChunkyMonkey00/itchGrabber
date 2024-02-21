@@ -67,7 +67,24 @@ function getGameURL() {
 }
 
 function fetchGameURLs() {
-  fetch("https://itch.io/games/platform-web?page=" + page, { mode: 'no-cors' })
+  // Create a new Headers object
+  var headers = new Headers();
+
+  // Set common browser headers
+  headers.append('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8');
+  headers.append('Accept-Encoding', 'gzip, deflate, br');
+  headers.append('Accept-Language', 'en-US,en;q=0.5');
+  headers.append('Cache-Control', 'max-age=0');
+  headers.append('Connection', 'keep-alive');
+  headers.append('Host', 'itch.io');
+  headers.append('Upgrade-Insecure-Requests', '1');
+  headers.append('User-Agent', 'Mozilla/5.0 (Windows NT  10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3');
+  headers.append('credentials', 'include');
+
+  fetch("https://itch.io/games/platform-web", {
+    method: 'GET',
+    headers: headers,
+  })
     .then(response => {
       if (response.type === 'opaque') {
         console.log('Opaque response, cannot read data');
