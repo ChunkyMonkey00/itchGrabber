@@ -28,15 +28,20 @@ The Itch Game Grabber allows you to easily access games available on itch.io, by
 ```
 $ python grabber.py
 
-0: Game Title 1
-1: Game Title 2
-2: Game Title 3
+...
+32: Be Honest
+33: Closing Doors
+34: Coming Out Simulator 2014
+35: Evolution
+(Took 8 MS)
 
-$ Enter the game number ('exit' to quit/'next' to load more): 2
+Enter the game number ('exit' to quit/'next' to load more): 32
 
-Game source (copied): https://example.com/embed/game-title-2
+Game Source (copied): https://html-classic.itch.zone/html/7576776/BeHonest Web 3-24-23/index.html
+No clipboard found.
+(Took 18 MS)
 
-$ Enter the game number ('exit' to quit/'next' to load more): exit
+Enter the game number ('exit' to quit/'next' to load more): exit
 
 Exiting the Itch Game Grabber. Goodbye!
 ```
