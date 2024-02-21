@@ -1,9 +1,14 @@
 import requests
 from bs4 import BeautifulSoup
+import pyperclip
+
+page = 1
 
 def get_game_url():
+    global page
+
     # Send a GET request to the URL
-    url = "https://itch.io/games/platform-web"
+    url = "https://itch.io/games/platform-web?page="+str(page)
     response = requests.get(url)
 
     # Parse the HTML content
@@ -22,10 +27,15 @@ def get_game_url():
 
     while True:
         # Ask the user for a number corresponding to the game
-        selected_game = input("Enter the number corresponding to the game (or 'exit' to quit): ")
+        selected_game = input("Enter the game number ('exit' to quit/'next' to load more): ")
 
         if selected_game.lower() == 'exit':
             print("Exiting the Itch Game Grabber. Goodbye!")
+            return
+        if selected_game.lower() == 'next':
+            print("Getting more games...")
+            page += 1
+            get_game_url()
             return
 
         try:
@@ -51,7 +61,8 @@ def get_game_url():
                     iframe_src = iframe_soup.find('iframe')['src']
 
                     # Print the URL
-                    print("Game Source: "+iframe_src)
+                    print("Game Source (copied): "+iframe_src)
+                    pyperclip.copy(iframe_src)
 
                 except (KeyError, TypeError):
                     # If iframe_src doesn't exist or encountered parsing errors, try finding iframe with id "game_drop"
