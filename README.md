@@ -41,6 +41,10 @@ $ Enter the game number ('exit' to quit/'next' to load more): exit
 Exiting the Itch Game Grabber. Goodbye!
 ```
 
+## Upcoming Features
+
+- Website that allows for easy browsing without download
+
 ---
 - ChunkyMonkey00
 By following these simple instructions, you can easily access games on itch.io, bypassing school restrictions with the Itch Game Grabber tool. Enjoy gaming without limitations!
