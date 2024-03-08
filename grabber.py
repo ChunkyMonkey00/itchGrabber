@@ -3,12 +3,20 @@ from bs4 import BeautifulSoup
 import pyperclip
 
 page = 1
-
+tags = []
 def get_game_url():
-    global page
+    global page, tags
 
-    # Send a GET request to the URL
-    url = "https://itch.io/games/platform-web?page="+str(page)
+    # Initialize the base URL
+    base_url = "https://itch.io/games/platform-web"
+
+    # Modify the URL for each tag
+    for tag in tags:
+        base_url += "/tag-" + tag
+
+    # Append the page number to the URL
+    url = base_url + "?page=" + str(page)
+
     response = requests.get(url)
 
     # Parse the HTML content
@@ -30,8 +38,10 @@ def get_game_url():
 
     while True:
         # Ask the user for a number corresponding to the game
-        selected_game = input("Enter the game number ('exit' to quit/'next' to load more): ")
+        selected_game = input("Enter the game number/URL ('exit' to quit/'next' to load more): ")
         print("")
+
+        dontGet = False
 
         if selected_game.lower() == 'exit':
             print("Exiting the Itch Game Grabber. Goodbye!")
@@ -41,6 +51,10 @@ def get_game_url():
             page += 1
             get_game_url()
             return
+        if "itch.io" in selected_game:
+            url = selected_game
+            selected_game = 0
+            dontGet = True
 
         try:
             selected_game = int(selected_game)
@@ -49,7 +63,8 @@ def get_game_url():
                 # Get the href corresponding to the selected game and print it
                 selected_href = href_list[selected_game]
 
-                url = selected_href
+                if not dontGet:
+                    url = selected_href
 
                 try:
                     r = requests.get(url)
@@ -104,4 +119,14 @@ def get_game_url():
             print("Invalid input.")
 
 if __name__ == "__main__":
+    page_input = input("Enter page number: ")
+
+    try:
+        if page_input != "":
+            page = int(page_input)
+    except (KeyError, TypeError):
+        print("invalid")
+
+    tags_input = input("Enter tags separated by commas: ")
+    tags = [tag.strip() for tag in tags_input.split(',')]
     get_game_url()
